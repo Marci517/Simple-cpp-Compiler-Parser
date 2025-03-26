@@ -1,0 +1,1211 @@
+Grammar
+
+    0 $accept: program $end
+
+    1 program: /* empty */
+    2        | block
+
+    3 @1: /* empty */
+
+    4 number: INT @1
+
+    5 @2: /* empty */
+
+    6 number: FLOAT @2
+
+    7 logicop: AND
+    8        | OR
+
+    9 @3: /* empty */
+
+   10 @4: /* empty */
+
+   11 @5: /* empty */
+
+   12 declaration: INT_TYPE @3 VARIABLE @4 SEMICOLON @5
+
+   13 @6: /* empty */
+
+   14 @7: /* empty */
+
+   15 @8: /* empty */
+
+   16 declaration: FLOAT_TYPE @6 VARIABLE @7 SEMICOLON @8
+
+   17 op: PLUS
+   18   | MINUS
+   19   | MOD
+   20   | MULTIPLY
+   21   | DIVIDE
+
+   22 expression: vl op VARIABLE
+   23           | vl op number
+   24           | number
+   25           | VARIABLE
+
+   26 @9: /* empty */
+
+   27 @10: /* empty */
+
+   28 @11: /* empty */
+
+   29 operation: VARIABLE @9 ASSIGN @10 expression SEMICOLON @11
+
+   30 @12: /* empty */
+
+   31 @13: /* empty */
+
+   32 @14: /* empty */
+
+   33 @15: /* empty */
+
+   34 @16: /* empty */
+
+   35 @17: /* empty */
+
+   36 @18: /* empty */
+
+   37 ifpart: IF @12 LPAREN @13 expr RPAREN @14 LBRACE @15 block RBRACE @16 ELSE @17 LBRACE @18 block RBRACE
+   38       | IF error
+
+   39 block: SEMICOLON
+   40      | declaration block
+   41      | ifpart block
+   42      | whilepart block
+   43      | operation block
+   44      | outputpart block
+   45      | declaration
+   46      | ifpart
+   47      | whilepart
+   48      | operation
+   49      | outputpart
+
+   50 outputpart: OUTPUT VARIABLE SEMICOLON
+
+   51 @19: /* empty */
+
+   52 outputpart: OUTPUT @19 number SEMICOLON
+
+   53 hasonlitoop: NOT_EQUAL
+   54            | EQUAL
+   55            | LESS
+   56            | GREATER
+
+   57 element: hasonlitoop VARIABLE
+   58        | hasonlitoop number
+
+   59 vl: VARIABLE
+
+   60 expr: vl element
+   61     | vl element logicop expr
+
+   62 @20: /* empty */
+
+   63 @21: /* empty */
+
+   64 @22: /* empty */
+
+   65 whilepart: WHILE @20 LPAREN @21 expr RPAREN @22 LBRACE block RBRACE
+   66          | WHILE error LPAREN expr RPAREN LBRACE block RBRACE
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256) 38 66
+INT (258) 4
+FLOAT (259) 6
+VARIABLE (260) 12 16 22 25 29 50 57 59
+MINUS (261) 18
+PLUS (262) 17
+MOD (263) 19
+DIVIDE (264) 21
+MULTIPLY (265) 20
+IF (266) 37 38
+ELSE (267) 37
+WHILE (268) 65 66
+LPAREN (269) 37 65 66
+RPAREN (270) 37 65 66
+LBRACE (271) 37 65 66
+RBRACE (272) 37 65 66
+INT_TYPE (273) 12
+FLOAT_TYPE (274) 16
+SEMICOLON (275) 12 16 29 39 50 52
+ASSIGN (276) 29
+EQUAL (277) 54
+LESS (278) 55
+GREATER (279) 56
+NOT_EQUAL (280) 53
+AND (281) 7
+OR (282) 8
+OUTPUT (283) 50 52
+
+
+Nonterminals, with rules where they appear
+
+$accept (29)
+    on left: 0
+program (30)
+    on left: 1 2, on right: 0
+number (31)
+    on left: 4 6, on right: 23 24 52 58
+@1 (32)
+    on left: 3, on right: 4
+@2 (33)
+    on left: 5, on right: 6
+logicop (34)
+    on left: 7 8, on right: 61
+declaration (35)
+    on left: 12 16, on right: 40 45
+@3 (36)
+    on left: 9, on right: 12
+@4 (37)
+    on left: 10, on right: 12
+@5 (38)
+    on left: 11, on right: 12
+@6 (39)
+    on left: 13, on right: 16
+@7 (40)
+    on left: 14, on right: 16
+@8 (41)
+    on left: 15, on right: 16
+op (42)
+    on left: 17 18 19 20 21, on right: 22 23
+expression (43)
+    on left: 22 23 24 25, on right: 29
+operation (44)
+    on left: 29, on right: 43 48
+@9 (45)
+    on left: 26, on right: 29
+@10 (46)
+    on left: 27, on right: 29
+@11 (47)
+    on left: 28, on right: 29
+ifpart (48)
+    on left: 37 38, on right: 41 46
+@12 (49)
+    on left: 30, on right: 37
+@13 (50)
+    on left: 31, on right: 37
+@14 (51)
+    on left: 32, on right: 37
+@15 (52)
+    on left: 33, on right: 37
+@16 (53)
+    on left: 34, on right: 37
+@17 (54)
+    on left: 35, on right: 37
+@18 (55)
+    on left: 36, on right: 37
+block (56)
+    on left: 39 40 41 42 43 44 45 46 47 48 49, on right: 2 37 40 41
+    42 43 44 65 66
+outputpart (57)
+    on left: 50 52, on right: 44 49
+@19 (58)
+    on left: 51, on right: 52
+hasonlitoop (59)
+    on left: 53 54 55 56, on right: 57 58
+element (60)
+    on left: 57 58, on right: 60 61
+vl (61)
+    on left: 59, on right: 22 23 60 61
+expr (62)
+    on left: 60 61, on right: 37 61 65 66
+whilepart (63)
+    on left: 65 66, on right: 42 47
+@20 (64)
+    on left: 62, on right: 65
+@21 (65)
+    on left: 63, on right: 65
+@22 (66)
+    on left: 64, on right: 65
+
+
+state 0
+
+    0 $accept: . program $end
+
+    VARIABLE    shift, and go to state 1
+    IF          shift, and go to state 2
+    WHILE       shift, and go to state 3
+    INT_TYPE    shift, and go to state 4
+    FLOAT_TYPE  shift, and go to state 5
+    SEMICOLON   shift, and go to state 6
+    OUTPUT      shift, and go to state 7
+
+    $default  reduce using rule 1 (program)
+
+    program      go to state 8
+    declaration  go to state 9
+    operation    go to state 10
+    ifpart       go to state 11
+    block        go to state 12
+    outputpart   go to state 13
+    whilepart    go to state 14
+
+
+state 1
+
+   29 operation: VARIABLE . @9 ASSIGN @10 expression SEMICOLON @11
+
+    $default  reduce using rule 26 (@9)
+
+    @9  go to state 15
+
+
+state 2
+
+   37 ifpart: IF . @12 LPAREN @13 expr RPAREN @14 LBRACE @15 block RBRACE @16 ELSE @17 LBRACE @18 block RBRACE
+   38       | IF . error
+
+    error  shift, and go to state 16
+
+    LPAREN  reduce using rule 30 (@12)
+
+    @12  go to state 17
+
+
+state 3
+
+   65 whilepart: WHILE . @20 LPAREN @21 expr RPAREN @22 LBRACE block RBRACE
+   66          | WHILE . error LPAREN expr RPAREN LBRACE block RBRACE
+
+    error  shift, and go to state 18
+
+    LPAREN  reduce using rule 62 (@20)
+
+    @20  go to state 19
+
+
+state 4
+
+   12 declaration: INT_TYPE . @3 VARIABLE @4 SEMICOLON @5
+
+    $default  reduce using rule 9 (@3)
+
+    @3  go to state 20
+
+
+state 5
+
+   16 declaration: FLOAT_TYPE . @6 VARIABLE @7 SEMICOLON @8
+
+    $default  reduce using rule 13 (@6)
+
+    @6  go to state 21
+
+
+state 6
+
+   39 block: SEMICOLON .
+
+    $default  reduce using rule 39 (block)
+
+
+state 7
+
+   50 outputpart: OUTPUT . VARIABLE SEMICOLON
+   52           | OUTPUT . @19 number SEMICOLON
+
+    VARIABLE  shift, and go to state 22
+
+    $default  reduce using rule 51 (@19)
+
+    @19  go to state 23
+
+
+state 8
+
+    0 $accept: program . $end
+
+    $end  shift, and go to state 24
+
+
+state 9
+
+   40 block: declaration . block
+   45      | declaration .
+
+    VARIABLE    shift, and go to state 1
+    IF          shift, and go to state 2
+    WHILE       shift, and go to state 3
+    INT_TYPE    shift, and go to state 4
+    FLOAT_TYPE  shift, and go to state 5
+    SEMICOLON   shift, and go to state 6
+    OUTPUT      shift, and go to state 7
+
+    $default  reduce using rule 45 (block)
+
+    declaration  go to state 9
+    operation    go to state 10
+    ifpart       go to state 11
+    block        go to state 25
+    outputpart   go to state 13
+    whilepart    go to state 14
+
+
+state 10
+
+   43 block: operation . block
+   48      | operation .
+
+    VARIABLE    shift, and go to state 1
+    IF          shift, and go to state 2
+    WHILE       shift, and go to state 3
+    INT_TYPE    shift, and go to state 4
+    FLOAT_TYPE  shift, and go to state 5
+    SEMICOLON   shift, and go to state 6
+    OUTPUT      shift, and go to state 7
+
+    $default  reduce using rule 48 (block)
+
+    declaration  go to state 9
+    operation    go to state 10
+    ifpart       go to state 11
+    block        go to state 26
+    outputpart   go to state 13
+    whilepart    go to state 14
+
+
+state 11
+
+   41 block: ifpart . block
+   46      | ifpart .
+
+    VARIABLE    shift, and go to state 1
+    IF          shift, and go to state 2
+    WHILE       shift, and go to state 3
+    INT_TYPE    shift, and go to state 4
+    FLOAT_TYPE  shift, and go to state 5
+    SEMICOLON   shift, and go to state 6
+    OUTPUT      shift, and go to state 7
+
+    $default  reduce using rule 46 (block)
+
+    declaration  go to state 9
+    operation    go to state 10
+    ifpart       go to state 11
+    block        go to state 27
+    outputpart   go to state 13
+    whilepart    go to state 14
+
+
+state 12
+
+    2 program: block .
+
+    $default  reduce using rule 2 (program)
+
+
+state 13
+
+   44 block: outputpart . block
+   49      | outputpart .
+
+    VARIABLE    shift, and go to state 1
+    IF          shift, and go to state 2
+    WHILE       shift, and go to state 3
+    INT_TYPE    shift, and go to state 4
+    FLOAT_TYPE  shift, and go to state 5
+    SEMICOLON   shift, and go to state 6
+    OUTPUT      shift, and go to state 7
+
+    $default  reduce using rule 49 (block)
+
+    declaration  go to state 9
+    operation    go to state 10
+    ifpart       go to state 11
+    block        go to state 28
+    outputpart   go to state 13
+    whilepart    go to state 14
+
+
+state 14
+
+   42 block: whilepart . block
+   47      | whilepart .
+
+    VARIABLE    shift, and go to state 1
+    IF          shift, and go to state 2
+    WHILE       shift, and go to state 3
+    INT_TYPE    shift, and go to state 4
+    FLOAT_TYPE  shift, and go to state 5
+    SEMICOLON   shift, and go to state 6
+    OUTPUT      shift, and go to state 7
+
+    $default  reduce using rule 47 (block)
+
+    declaration  go to state 9
+    operation    go to state 10
+    ifpart       go to state 11
+    block        go to state 29
+    outputpart   go to state 13
+    whilepart    go to state 14
+
+
+state 15
+
+   29 operation: VARIABLE @9 . ASSIGN @10 expression SEMICOLON @11
+
+    ASSIGN  shift, and go to state 30
+
+
+state 16
+
+   38 ifpart: IF error .
+
+    $default  reduce using rule 38 (ifpart)
+
+
+state 17
+
+   37 ifpart: IF @12 . LPAREN @13 expr RPAREN @14 LBRACE @15 block RBRACE @16 ELSE @17 LBRACE @18 block RBRACE
+
+    LPAREN  shift, and go to state 31
+
+
+state 18
+
+   66 whilepart: WHILE error . LPAREN expr RPAREN LBRACE block RBRACE
+
+    LPAREN  shift, and go to state 32
+
+
+state 19
+
+   65 whilepart: WHILE @20 . LPAREN @21 expr RPAREN @22 LBRACE block RBRACE
+
+    LPAREN  shift, and go to state 33
+
+
+state 20
+
+   12 declaration: INT_TYPE @3 . VARIABLE @4 SEMICOLON @5
+
+    VARIABLE  shift, and go to state 34
+
+
+state 21
+
+   16 declaration: FLOAT_TYPE @6 . VARIABLE @7 SEMICOLON @8
+
+    VARIABLE  shift, and go to state 35
+
+
+state 22
+
+   50 outputpart: OUTPUT VARIABLE . SEMICOLON
+
+    SEMICOLON  shift, and go to state 36
+
+
+state 23
+
+   52 outputpart: OUTPUT @19 . number SEMICOLON
+
+    INT    shift, and go to state 37
+    FLOAT  shift, and go to state 38
+
+    number  go to state 39
+
+
+state 24
+
+    0 $accept: program $end .
+
+    $default  accept
+
+
+state 25
+
+   40 block: declaration block .
+
+    $default  reduce using rule 40 (block)
+
+
+state 26
+
+   43 block: operation block .
+
+    $default  reduce using rule 43 (block)
+
+
+state 27
+
+   41 block: ifpart block .
+
+    $default  reduce using rule 41 (block)
+
+
+state 28
+
+   44 block: outputpart block .
+
+    $default  reduce using rule 44 (block)
+
+
+state 29
+
+   42 block: whilepart block .
+
+    $default  reduce using rule 42 (block)
+
+
+state 30
+
+   29 operation: VARIABLE @9 ASSIGN . @10 expression SEMICOLON @11
+
+    $default  reduce using rule 27 (@10)
+
+    @10  go to state 40
+
+
+state 31
+
+   37 ifpart: IF @12 LPAREN . @13 expr RPAREN @14 LBRACE @15 block RBRACE @16 ELSE @17 LBRACE @18 block RBRACE
+
+    $default  reduce using rule 31 (@13)
+
+    @13  go to state 41
+
+
+state 32
+
+   66 whilepart: WHILE error LPAREN . expr RPAREN LBRACE block RBRACE
+
+    VARIABLE  shift, and go to state 42
+
+    vl    go to state 43
+    expr  go to state 44
+
+
+state 33
+
+   65 whilepart: WHILE @20 LPAREN . @21 expr RPAREN @22 LBRACE block RBRACE
+
+    $default  reduce using rule 63 (@21)
+
+    @21  go to state 45
+
+
+state 34
+
+   12 declaration: INT_TYPE @3 VARIABLE . @4 SEMICOLON @5
+
+    $default  reduce using rule 10 (@4)
+
+    @4  go to state 46
+
+
+state 35
+
+   16 declaration: FLOAT_TYPE @6 VARIABLE . @7 SEMICOLON @8
+
+    $default  reduce using rule 14 (@7)
+
+    @7  go to state 47
+
+
+state 36
+
+   50 outputpart: OUTPUT VARIABLE SEMICOLON .
+
+    $default  reduce using rule 50 (outputpart)
+
+
+state 37
+
+    4 number: INT . @1
+
+    $default  reduce using rule 3 (@1)
+
+    @1  go to state 48
+
+
+state 38
+
+    6 number: FLOAT . @2
+
+    $default  reduce using rule 5 (@2)
+
+    @2  go to state 49
+
+
+state 39
+
+   52 outputpart: OUTPUT @19 number . SEMICOLON
+
+    SEMICOLON  shift, and go to state 50
+
+
+state 40
+
+   29 operation: VARIABLE @9 ASSIGN @10 . expression SEMICOLON @11
+
+    INT       shift, and go to state 37
+    FLOAT     shift, and go to state 38
+    VARIABLE  shift, and go to state 51
+
+    number      go to state 52
+    expression  go to state 53
+    vl          go to state 54
+
+
+state 41
+
+   37 ifpart: IF @12 LPAREN @13 . expr RPAREN @14 LBRACE @15 block RBRACE @16 ELSE @17 LBRACE @18 block RBRACE
+
+    VARIABLE  shift, and go to state 42
+
+    vl    go to state 43
+    expr  go to state 55
+
+
+state 42
+
+   59 vl: VARIABLE .
+
+    $default  reduce using rule 59 (vl)
+
+
+state 43
+
+   60 expr: vl . element
+   61     | vl . element logicop expr
+
+    EQUAL      shift, and go to state 56
+    LESS       shift, and go to state 57
+    GREATER    shift, and go to state 58
+    NOT_EQUAL  shift, and go to state 59
+
+    hasonlitoop  go to state 60
+    element      go to state 61
+
+
+state 44
+
+   66 whilepart: WHILE error LPAREN expr . RPAREN LBRACE block RBRACE
+
+    RPAREN  shift, and go to state 62
+
+
+state 45
+
+   65 whilepart: WHILE @20 LPAREN @21 . expr RPAREN @22 LBRACE block RBRACE
+
+    VARIABLE  shift, and go to state 42
+
+    vl    go to state 43
+    expr  go to state 63
+
+
+state 46
+
+   12 declaration: INT_TYPE @3 VARIABLE @4 . SEMICOLON @5
+
+    SEMICOLON  shift, and go to state 64
+
+
+state 47
+
+   16 declaration: FLOAT_TYPE @6 VARIABLE @7 . SEMICOLON @8
+
+    SEMICOLON  shift, and go to state 65
+
+
+state 48
+
+    4 number: INT @1 .
+
+    $default  reduce using rule 4 (number)
+
+
+state 49
+
+    6 number: FLOAT @2 .
+
+    $default  reduce using rule 6 (number)
+
+
+state 50
+
+   52 outputpart: OUTPUT @19 number SEMICOLON .
+
+    $default  reduce using rule 52 (outputpart)
+
+
+state 51
+
+   25 expression: VARIABLE .
+   59 vl: VARIABLE .
+
+    SEMICOLON  reduce using rule 25 (expression)
+    $default   reduce using rule 59 (vl)
+
+
+state 52
+
+   24 expression: number .
+
+    $default  reduce using rule 24 (expression)
+
+
+state 53
+
+   29 operation: VARIABLE @9 ASSIGN @10 expression . SEMICOLON @11
+
+    SEMICOLON  shift, and go to state 66
+
+
+state 54
+
+   22 expression: vl . op VARIABLE
+   23           | vl . op number
+
+    MINUS     shift, and go to state 67
+    PLUS      shift, and go to state 68
+    MOD       shift, and go to state 69
+    DIVIDE    shift, and go to state 70
+    MULTIPLY  shift, and go to state 71
+
+    op  go to state 72
+
+
+state 55
+
+   37 ifpart: IF @12 LPAREN @13 expr . RPAREN @14 LBRACE @15 block RBRACE @16 ELSE @17 LBRACE @18 block RBRACE
+
+    RPAREN  shift, and go to state 73
+
+
+state 56
+
+   54 hasonlitoop: EQUAL .
+
+    $default  reduce using rule 54 (hasonlitoop)
+
+
+state 57
+
+   55 hasonlitoop: LESS .
+
+    $default  reduce using rule 55 (hasonlitoop)
+
+
+state 58
+
+   56 hasonlitoop: GREATER .
+
+    $default  reduce using rule 56 (hasonlitoop)
+
+
+state 59
+
+   53 hasonlitoop: NOT_EQUAL .
+
+    $default  reduce using rule 53 (hasonlitoop)
+
+
+state 60
+
+   57 element: hasonlitoop . VARIABLE
+   58        | hasonlitoop . number
+
+    INT       shift, and go to state 37
+    FLOAT     shift, and go to state 38
+    VARIABLE  shift, and go to state 74
+
+    number  go to state 75
+
+
+state 61
+
+   60 expr: vl element .
+   61     | vl element . logicop expr
+
+    AND  shift, and go to state 76
+    OR   shift, and go to state 77
+
+    $default  reduce using rule 60 (expr)
+
+    logicop  go to state 78
+
+
+state 62
+
+   66 whilepart: WHILE error LPAREN expr RPAREN . LBRACE block RBRACE
+
+    LBRACE  shift, and go to state 79
+
+
+state 63
+
+   65 whilepart: WHILE @20 LPAREN @21 expr . RPAREN @22 LBRACE block RBRACE
+
+    RPAREN  shift, and go to state 80
+
+
+state 64
+
+   12 declaration: INT_TYPE @3 VARIABLE @4 SEMICOLON . @5
+
+    $default  reduce using rule 11 (@5)
+
+    @5  go to state 81
+
+
+state 65
+
+   16 declaration: FLOAT_TYPE @6 VARIABLE @7 SEMICOLON . @8
+
+    $default  reduce using rule 15 (@8)
+
+    @8  go to state 82
+
+
+state 66
+
+   29 operation: VARIABLE @9 ASSIGN @10 expression SEMICOLON . @11
+
+    $default  reduce using rule 28 (@11)
+
+    @11  go to state 83
+
+
+state 67
+
+   18 op: MINUS .
+
+    $default  reduce using rule 18 (op)
+
+
+state 68
+
+   17 op: PLUS .
+
+    $default  reduce using rule 17 (op)
+
+
+state 69
+
+   19 op: MOD .
+
+    $default  reduce using rule 19 (op)
+
+
+state 70
+
+   21 op: DIVIDE .
+
+    $default  reduce using rule 21 (op)
+
+
+state 71
+
+   20 op: MULTIPLY .
+
+    $default  reduce using rule 20 (op)
+
+
+state 72
+
+   22 expression: vl op . VARIABLE
+   23           | vl op . number
+
+    INT       shift, and go to state 37
+    FLOAT     shift, and go to state 38
+    VARIABLE  shift, and go to state 84
+
+    number  go to state 85
+
+
+state 73
+
+   37 ifpart: IF @12 LPAREN @13 expr RPAREN . @14 LBRACE @15 block RBRACE @16 ELSE @17 LBRACE @18 block RBRACE
+
+    $default  reduce using rule 32 (@14)
+
+    @14  go to state 86
+
+
+state 74
+
+   57 element: hasonlitoop VARIABLE .
+
+    $default  reduce using rule 57 (element)
+
+
+state 75
+
+   58 element: hasonlitoop number .
+
+    $default  reduce using rule 58 (element)
+
+
+state 76
+
+    7 logicop: AND .
+
+    $default  reduce using rule 7 (logicop)
+
+
+state 77
+
+    8 logicop: OR .
+
+    $default  reduce using rule 8 (logicop)
+
+
+state 78
+
+   61 expr: vl element logicop . expr
+
+    VARIABLE  shift, and go to state 42
+
+    vl    go to state 43
+    expr  go to state 87
+
+
+state 79
+
+   66 whilepart: WHILE error LPAREN expr RPAREN LBRACE . block RBRACE
+
+    VARIABLE    shift, and go to state 1
+    IF          shift, and go to state 2
+    WHILE       shift, and go to state 3
+    INT_TYPE    shift, and go to state 4
+    FLOAT_TYPE  shift, and go to state 5
+    SEMICOLON   shift, and go to state 6
+    OUTPUT      shift, and go to state 7
+
+    declaration  go to state 9
+    operation    go to state 10
+    ifpart       go to state 11
+    block        go to state 88
+    outputpart   go to state 13
+    whilepart    go to state 14
+
+
+state 80
+
+   65 whilepart: WHILE @20 LPAREN @21 expr RPAREN . @22 LBRACE block RBRACE
+
+    $default  reduce using rule 64 (@22)
+
+    @22  go to state 89
+
+
+state 81
+
+   12 declaration: INT_TYPE @3 VARIABLE @4 SEMICOLON @5 .
+
+    $default  reduce using rule 12 (declaration)
+
+
+state 82
+
+   16 declaration: FLOAT_TYPE @6 VARIABLE @7 SEMICOLON @8 .
+
+    $default  reduce using rule 16 (declaration)
+
+
+state 83
+
+   29 operation: VARIABLE @9 ASSIGN @10 expression SEMICOLON @11 .
+
+    $default  reduce using rule 29 (operation)
+
+
+state 84
+
+   22 expression: vl op VARIABLE .
+
+    $default  reduce using rule 22 (expression)
+
+
+state 85
+
+   23 expression: vl op number .
+
+    $default  reduce using rule 23 (expression)
+
+
+state 86
+
+   37 ifpart: IF @12 LPAREN @13 expr RPAREN @14 . LBRACE @15 block RBRACE @16 ELSE @17 LBRACE @18 block RBRACE
+
+    LBRACE  shift, and go to state 90
+
+
+state 87
+
+   61 expr: vl element logicop expr .
+
+    $default  reduce using rule 61 (expr)
+
+
+state 88
+
+   66 whilepart: WHILE error LPAREN expr RPAREN LBRACE block . RBRACE
+
+    RBRACE  shift, and go to state 91
+
+
+state 89
+
+   65 whilepart: WHILE @20 LPAREN @21 expr RPAREN @22 . LBRACE block RBRACE
+
+    LBRACE  shift, and go to state 92
+
+
+state 90
+
+   37 ifpart: IF @12 LPAREN @13 expr RPAREN @14 LBRACE . @15 block RBRACE @16 ELSE @17 LBRACE @18 block RBRACE
+
+    $default  reduce using rule 33 (@15)
+
+    @15  go to state 93
+
+
+state 91
+
+   66 whilepart: WHILE error LPAREN expr RPAREN LBRACE block RBRACE .
+
+    $default  reduce using rule 66 (whilepart)
+
+
+state 92
+
+   65 whilepart: WHILE @20 LPAREN @21 expr RPAREN @22 LBRACE . block RBRACE
+
+    VARIABLE    shift, and go to state 1
+    IF          shift, and go to state 2
+    WHILE       shift, and go to state 3
+    INT_TYPE    shift, and go to state 4
+    FLOAT_TYPE  shift, and go to state 5
+    SEMICOLON   shift, and go to state 6
+    OUTPUT      shift, and go to state 7
+
+    declaration  go to state 9
+    operation    go to state 10
+    ifpart       go to state 11
+    block        go to state 94
+    outputpart   go to state 13
+    whilepart    go to state 14
+
+
+state 93
+
+   37 ifpart: IF @12 LPAREN @13 expr RPAREN @14 LBRACE @15 . block RBRACE @16 ELSE @17 LBRACE @18 block RBRACE
+
+    VARIABLE    shift, and go to state 1
+    IF          shift, and go to state 2
+    WHILE       shift, and go to state 3
+    INT_TYPE    shift, and go to state 4
+    FLOAT_TYPE  shift, and go to state 5
+    SEMICOLON   shift, and go to state 6
+    OUTPUT      shift, and go to state 7
+
+    declaration  go to state 9
+    operation    go to state 10
+    ifpart       go to state 11
+    block        go to state 95
+    outputpart   go to state 13
+    whilepart    go to state 14
+
+
+state 94
+
+   65 whilepart: WHILE @20 LPAREN @21 expr RPAREN @22 LBRACE block . RBRACE
+
+    RBRACE  shift, and go to state 96
+
+
+state 95
+
+   37 ifpart: IF @12 LPAREN @13 expr RPAREN @14 LBRACE @15 block . RBRACE @16 ELSE @17 LBRACE @18 block RBRACE
+
+    RBRACE  shift, and go to state 97
+
+
+state 96
+
+   65 whilepart: WHILE @20 LPAREN @21 expr RPAREN @22 LBRACE block RBRACE .
+
+    $default  reduce using rule 65 (whilepart)
+
+
+state 97
+
+   37 ifpart: IF @12 LPAREN @13 expr RPAREN @14 LBRACE @15 block RBRACE . @16 ELSE @17 LBRACE @18 block RBRACE
+
+    $default  reduce using rule 34 (@16)
+
+    @16  go to state 98
+
+
+state 98
+
+   37 ifpart: IF @12 LPAREN @13 expr RPAREN @14 LBRACE @15 block RBRACE @16 . ELSE @17 LBRACE @18 block RBRACE
+
+    ELSE  shift, and go to state 99
+
+
+state 99
+
+   37 ifpart: IF @12 LPAREN @13 expr RPAREN @14 LBRACE @15 block RBRACE @16 ELSE . @17 LBRACE @18 block RBRACE
+
+    $default  reduce using rule 35 (@17)
+
+    @17  go to state 100
+
+
+state 100
+
+   37 ifpart: IF @12 LPAREN @13 expr RPAREN @14 LBRACE @15 block RBRACE @16 ELSE @17 . LBRACE @18 block RBRACE
+
+    LBRACE  shift, and go to state 101
+
+
+state 101
+
+   37 ifpart: IF @12 LPAREN @13 expr RPAREN @14 LBRACE @15 block RBRACE @16 ELSE @17 LBRACE . @18 block RBRACE
+
+    $default  reduce using rule 36 (@18)
+
+    @18  go to state 102
+
+
+state 102
+
+   37 ifpart: IF @12 LPAREN @13 expr RPAREN @14 LBRACE @15 block RBRACE @16 ELSE @17 LBRACE @18 . block RBRACE
+
+    VARIABLE    shift, and go to state 1
+    IF          shift, and go to state 2
+    WHILE       shift, and go to state 3
+    INT_TYPE    shift, and go to state 4
+    FLOAT_TYPE  shift, and go to state 5
+    SEMICOLON   shift, and go to state 6
+    OUTPUT      shift, and go to state 7
+
+    declaration  go to state 9
+    operation    go to state 10
+    ifpart       go to state 11
+    block        go to state 103
+    outputpart   go to state 13
+    whilepart    go to state 14
+
+
+state 103
+
+   37 ifpart: IF @12 LPAREN @13 expr RPAREN @14 LBRACE @15 block RBRACE @16 ELSE @17 LBRACE @18 block . RBRACE
+
+    RBRACE  shift, and go to state 104
+
+
+state 104
+
+   37 ifpart: IF @12 LPAREN @13 expr RPAREN @14 LBRACE @15 block RBRACE @16 ELSE @17 LBRACE @18 block RBRACE .
+
+    $default  reduce using rule 37 (ifpart)
