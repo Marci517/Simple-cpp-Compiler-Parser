@@ -1604,7 +1604,7 @@ yyreduce:
 #line 97 "bisonFile.y"
     {
     if (!getExist((yyvsp[(3) - (3)].sval))) {
-        yyerror("Nem letezik a VARIABLE");
+        yyerror("Variable does not exist");
         //exit(1);
     }
     string t1 = (yyvsp[(1) - (3)].types);

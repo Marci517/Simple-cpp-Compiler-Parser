@@ -96,7 +96,7 @@ op: PLUS { cout << "+ ";}
 expression: vl op VARIABLE
 {
     if (!getExist($3)) {
-        yyerror("Nem letezik a VARIABLE");
+        yyerror("Variable does not exist");
         //exit(1);
     }
     string t1 = $1;
